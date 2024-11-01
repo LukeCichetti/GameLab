@@ -82,6 +82,8 @@ public class Room {
 		public void removeItem(String s) {
 			item.remove(s);
 		}
-			
+		public String toString() {
+			return description;
+		}
 }
 	

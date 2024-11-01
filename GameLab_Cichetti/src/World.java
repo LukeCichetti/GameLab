@@ -13,6 +13,8 @@ public class World {
 		
 		Room wardensoffice = new Room("You are in the cramped and messy Warden's office.");
 		Item Paperclips = new Item("Box of paper clips", "You found a box of paper clips, You remember your lock picking experience");
+		Safe safe = new Safe("safe", "It's an impressive safe!");
+		
 		
 		Room exit = new Room("This is the way to freedom, but it is locked.");
 		
@@ -20,6 +22,8 @@ public class World {
 		Item Dumbell = new Item ("60 pound dumbell", "You found a dumbell, might be usefull for breaking something");
 		
 		Room wardensbathroom = new Room("The warden's personal latrine and shower.");
+		Combination combination = new Combination("Combination", "This is a combination for something");
+		
 		
 		yard.addExit(messhall, 'e');
 		
