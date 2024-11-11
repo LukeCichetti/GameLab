@@ -23,6 +23,7 @@ public class Room {
 	
 	public String getName() {
 		return name;
+	}
 	
 	public Room(String d, String n) {
 		description = d;
