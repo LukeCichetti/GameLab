@@ -17,10 +17,29 @@ public class Room {
 	
 	private Room down;
 	
+	private boolean lock;
 	
-	public Room(String n) {
-		description = n;
+	private String name;
+	
+	public String getName() {
+		return name;
+	
+	public Room(String d, String n) {
+		description = d;
+		name = n;
+		lock = false;
+		
 	}
+	public boolean isLock() {
+		return lock;
+	}
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
+	public void setLocked(boolean lock) {
+		this.lock = lock;
+	}
+	
 	public Room getExit(char exit) {
 		if(exit == 'e') {
 			return east;
@@ -85,5 +104,8 @@ public class Room {
 		public String toString() {
 			return description;
 		}
-}
+		
+			
+	}
+
 	

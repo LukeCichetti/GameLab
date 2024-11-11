@@ -21,6 +21,7 @@ public class Game {
 	public static void main(String[] args) {
 		runGame();
 	}
+	
 
 	public static void runGame() {
 		Scanner input = new Scanner(System.in);
@@ -42,6 +43,9 @@ public class Game {
 				Room nextRoom = currentRoom.getExit(command.charAt(0));
 				if (nextRoom == null) {
 					System.out.println("You are unable to go that way.");
+				}
+					else if (nextRoom.isLock()) {
+					System.out.println("This way is locked.");
 				} else {
 					currentRoom = nextRoom;
 				}
