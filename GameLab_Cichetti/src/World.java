@@ -2,7 +2,9 @@
 public class World {
 
 	public static Room buildWorld() {
-		Room yard = new Room("This is the prison yard.", "Prison Yard");
+		Room yard = new Room("This is the vacant prison yard, something ain't right.", "Prison Yard");
+		
+		NPC puppy = new NPC("Puppy", "A small talkig puppy, How adorable!");
 		
 		Item bench = new Item("Bench", "This is a bench. It is bolted into the ground.");
 		
@@ -89,6 +91,8 @@ public class World {
 		cellblock.addItem(flashlight.getName(), flashlight);
 
 		yard.addItem(bench.getName(), bench);
+		
+		yard.addItem(puppy.getName(), puppy);
 
 		wardensoffice.addItem(Shotgun.getName(), Shotgun);
 
@@ -96,5 +100,4 @@ public class World {
 
 		return yard;
 	}
-
 }
