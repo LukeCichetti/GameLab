@@ -39,7 +39,7 @@ public class PrisonGuard extends NPC {
 		case 2:
 			if(count==1) {
 			say("Alright then asshole! have it your way.");
-			Game.print("The card cocks his gun and walks away.");
+			Game.print("The guard cocks his gun and walks away.");
 			break;
 			}
 		}
@@ -63,7 +63,7 @@ public class PrisonGuard extends NPC {
 		switch (option) {
 		case 1:
 			if (count == 3) {
-				say("Go away");
+				say("Go away!");
 			}
 			break;
 		

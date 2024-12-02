@@ -1,7 +1,7 @@
 import java.util.HashMap;
-import java.util.TreeMap;
+import java.io.Serializable;
 
-public class Room {
+public class Room implements Serializable {
 	
 	private String description;
 	
@@ -86,6 +86,16 @@ public class Room {
 	}
 	
 		private HashMap<String, Item> item = new HashMap<String, Item>();
+		
+		private HashMap<String, NPC> NPCs = new HashMap<String, NPC>();
+		
+		public NPC getNPC(String n) {
+			return NPCs.get(n);
+		}
+		public void addNPC(String x, NPC z) {
+			NPCs.put(x, z);
+		}
+
 	
 		public void addItem(String s, Item i) {
 		item.put(s, i);
