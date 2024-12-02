@@ -12,6 +12,8 @@ public class World {
 
 		Room messhall = new Room("You are in an empty messhall.", "Messhall");
 		
+		NPC prisonguard = new NPC("Prison Guard", "A disgruntled emloyee of the prison, he remembers you!");
+		
 		Item shank = new Item("Shank", "You now have a prisoner's shank. This could be usefull.");
 		
 		Item SlopTray = new Item("SlopTray", "You now have a tray that the inmates ate on");
@@ -92,7 +94,9 @@ public class World {
 
 		yard.addItem(bench.getName(), bench);
 		
-		yard.addItem(puppy.getName(), puppy);
+		yard.addNPC(puppy.getName(), puppy);
+		
+		yard.addNPC(prisonguard.getName(), prisonguard);
 
 		wardensoffice.addItem(Shotgun.getName(), Shotgun);
 
