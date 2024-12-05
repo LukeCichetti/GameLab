@@ -61,6 +61,8 @@ public class World {
 		wardensoffice.addExit(wardensbathroom, 'e');
 
 		yard.addExit(exit, 's');
+		
+		exit.addExit(yard, 'n');
 
 		yard.addExit(weightroom, 'u');
 		

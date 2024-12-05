@@ -7,92 +7,69 @@ import java.io.FileNotFoundException;
 import java.io.*;
 
 public class Game {
-	public class Room {
-	    private HashMap<String, Item> items;  
-	    private HashMap<String, NPC> npcs;    
-
-	    public Room() {
-	        items = new HashMap<>();
-	        npcs = new HashMap<>();
-	    }
-	    public void addItem(Item item) {
-	        items.put(item.getName(), item);
-	    }
-	    public void addNPC(NPC npc) {
-	        npcs.put(npc.getName(), npc);
-	    }
-	    public Item getItem(String itemName) {
-	        return items.get(itemName);
-	    }
-	    public NPC getNPC(String npcName) {
-	        return npcs.get(npcName);
-	    }
-	}
-	public static void saveGame(String fileName) {
-		try {
-			 FileOutputStream fos = new FileOutputStream(fileName);
-	            ObjectOutputStream stream = new ObjectOutputStream(fos);
-
-	            stream.writeObject(currentRoom);   
-	            stream.writeObject(inventory);     
-
-	            stream.close();
-	            System.out.println("Game saved successfully.");
-		} catch (IOException e) {
-            System.out.println("Error saving the game: " + e.getMessage());
-        }
-	}
-		public static void loadGame(String fileName) {
-	        try {
-	            FileInputStream fis = new FileInputStream(fileName);
-	            ObjectInputStream stream = new ObjectInputStream(fis);
-
-	            
-	            currentRoom = (Room) stream.readObject();  
-	            inventory = (ArrayList<Item>) stream.readObject(); 
-
-	            stream.close();
-	            System.out.println("Game loaded successfully.");
-	        } catch (FileNotFoundException e) {
-	            System.out.println("Save file not found.");
-	        } catch (IOException | ClassNotFoundException e) {
-	            System.out.println("Error loading the game: " + e.getMessage());
-	       }
-	    
-    }
-		 public static void resumeGame(String[] args) {
-		        System.out.println("Would you like to load the previous game? (yes/no)");
-		        String loadChoice = input.nextLine();
-		        if (loadChoice.equalsIgnoreCase("yes")) {
-		            loadGame("gameSave.dat");
-		        } else {
-		            runGame();
-		        }
-		    }
-				
-			static HashMap<String, String> roomFile = new HashMap();
-			
 	
+	public static void main(String[] args) {
+		roomfile();
+		ui = new Interface();
+		print(currentRoom);
+	}
+	private static Interface ui;
+	
+	public static HashMap<String, Room>roomMap = new HashMap<String, Room>();
 
-	public static void roomfile(String[] args) {
+	public static void saveGame(String saveload) {
+		File s = new File(saveload);
+		try {
+			FileOutputStream fos = new FileOutputStream(s);
+			ObjectOutputStream stream = new ObjectOutputStream(fos);
+			stream.writeObject(currentRoom);
+			stream.writeObject(inventory);
+			stream.writeObject(roomMap);
+			stream.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File "+saveload+"not found");
+		} catch (IOException e) {
+			System.out.println("Error saving the game");
+		}
+	}
+
+	public static void loadGame(String saveload) {
+		File s = new File(saveload);
+		try {
+			FileInputStream fos = new FileInputStream(s);
+			ObjectInputStream stream = new ObjectInputStream(fos);
+			currentRoom = (Room) stream.readObject();
+			inventory = (ArrayList) stream.readObject();
+			roomMap = (HashMap) stream.readObject();
+			stream.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File "+saveload+ "not found");
+		} catch (IOException e) {
+			System.out.println("Error loading the game");
+		}
+
+	}
+
+
+	static HashMap<String, String> roomFile = new HashMap();
+
+	public static void roomfile() {
 		try {
 			Scanner input = new Scanner(new File("TextFileRooms"));
-			while (input.hasNextLine()) {	
+			while (input.hasNextLine()) {
 				String line = input.nextLine();
 				String line2 = input.nextLine();
 				input.nextLine();
 				roomFile.put(line, line2);
-				}
+			}
 			input.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException");
 		}
 	}
-	
+
 	public static ArrayList<Item> inventory = new ArrayList<Item>();
-	
-	
-	
+
 	public static Scanner input = new Scanner(System.in);
 
 	public static Room currentRoom = World.buildWorld();
@@ -106,18 +83,13 @@ public class Game {
 
 	public static void print(Object obj) {
 		System.out.println(obj.toString());
+		ui.gameTextArea.append(obj.toString()+"\n");
 	}
 
-	public static void main(String[] args) {
-		runGame();
-	}
-	public static void runGame() {
-		
-		String command;
-		do {
-			System.out.println(currentRoom);
-			System.out.println("Where would you like to go?");
-			command = input.nextLine();
+	
+
+	public static void processCommand(String command) {
+
 			String[] words = command.split(" ");
 
 			switch (words[0]) {
@@ -130,8 +102,7 @@ public class Game {
 				Room nextRoom = currentRoom.getExit(command.charAt(0));
 				if (nextRoom == null) {
 					System.out.println("You are unable to go that way.");
-				}
-					else if (nextRoom.isLock()) {
+				} else if (nextRoom.isLock()) {
 					System.out.println("This way is locked.");
 				} else {
 					currentRoom = nextRoom;
@@ -194,26 +165,14 @@ public class Game {
 
 				}
 				break;
-		case "talk":
-			if (currentRoom.getNPC(puppy) != null) {
-				System.out.println(currentRoom.getNPC(puppy).getDescription());
-			} else {
-				for (Item item : inventory.getNPC()) {
-					if (item.getName().equals(puppy)) {
-						System.out.println(item.getDescription());
-						break;
-					}
-				}
+			case "talk":
+				currentRoom.getNPC(words[1]).talk();
 				System.out.println("The item is no puppy to talk to here");
-
-			}
-			break;
+				break;
 			default:
 				System.out.println("I don't know what that means.");
 				break;
 			}
-		} while (!command.equals("x"));
-
-		input.close();
+		
 	}
 }
